@@ -6,15 +6,24 @@ const { cardRouter } = require('./routes/cards.js');
 
 const app = express();
 
+require('dotenv').config();
+
 const { PORT = 3000 } = process.env;
 
-mongoose.connect('mongodb://127.0.0.1:27017/aroundb')
-  .then(() => {
-    console.log('Connected to MongoDB');
-  })
-  .catch((err) => {
-    console.error('Error connecting to MongoDB:', err);
-  });
+// Connect to MongoDB
+async function connectToMongoDB() {
+  const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
+
+  try {
+    await mongoose.connect(process.env.MONGO_URL,
+      clientOptions
+    );
+    await mongoose.connection.db.admin().command({ ping: 1 });
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error);
+  }
+}
+connectToMongoDB();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
