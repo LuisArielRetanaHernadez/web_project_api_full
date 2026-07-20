@@ -22,22 +22,22 @@ const userSchema = new Schema({
     validate: {
       validator: (v) => /^https?:\/\/.*/.test(v),
       message: 'Invalid URL',
+    }
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    validate: {
+      validator: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
+      message: 'Invalid email',
     },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      validate: {
-        validator: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
-        message: 'Invalid email',
-      },
-    },
-    password: {
-      type: String,
-      required: true,
-      minlength: 8,
-      maxlength: 30,
-    },
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 8,
+    maxlength: 30,
   },
 });
 
