@@ -1,5 +1,6 @@
 /* eslint-disable linebreak-style */
 const user = require('../models/user');
+const bcrypt = require('bcryptjs');
 
 exports.getUsers = async (req, res) => {
   await user.find({})
@@ -25,7 +26,8 @@ exports.getUserById = async (req, res) => {
 
 exports.createUser = async (req, res) => {
   try {
-    const newUser = await user.create(req.body);
+    const hashedPassword = await bcrypt.hash(req.body.password, 5);
+    const newUser = await user.create({ ...req.body, password: hashedPassword });
     if (!newUser) {
       const error = new Error('No se pudo crear el usuario');
       error.statusCode = 500;
