@@ -37,6 +37,30 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.getUserMe = async (req, res) => {
+  try {
+    const token = req.user
+    if (!token) {
+      const error = new Error('No token provided');
+      error.statusCode = 401;
+      throw error;
+    }
+
+    const userFound = await user.findById(token.id);
+
+    if (!userFound) {
+      const error = new Error('No se encontró el usuario');
+      error.statusCode = 404;
+      throw error;
+    }
+    
+    res.status(200).json(userFound);
+
+  } catch (error) {
+    res.status(error.statusCode || 500).json({ message: error.message });
+  }
+};
+
 exports.getUsers = async (req, res) => {
   await user.find({})
     .orFail(() => {
@@ -59,16 +83,7 @@ exports.getUserById = async (req, res) => {
     .catch((err) => res.status(err.statusCode || 500).json({ message: err.message }));
 };
 
-exports.getUserMe = async (req, res) => {
-  await user.findById(req.user._id)
-    .orFail(() => {
-      const error = new Error('No se encontró el usuario');
-      error.statusCode = 404;
-      throw error;
-    })
-    .then((userFound) => res.status(200).json({ data: userFound }))
-    .catch((err) => res.status(err.statusCode || 500).json({ message: err.message }));
-};
+
 exports.createUser = async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 5);
