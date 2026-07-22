@@ -8,11 +8,11 @@ const router = express.Router();
 
 router.post('/singin', login);
 
+router.post('/singup', createUser);
+
 router.get('/', getUsers);
 
 router.get('/:id', getUserById);
-
-router.post('/', createUser);
 
 router.put('/me', updateUser);
 
