@@ -37,6 +37,21 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.createUser = async (req, res) => {
+  try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 5);
+    const newUser = await user.create({ ...req.body, password: hashedPassword });
+    if (!newUser) {
+      const error = new Error('No se pudo crear el usuario');
+      error.statusCode = 500;
+      throw error;
+    }
+    res.status(201).json(newUser);
+  } catch (error) {
+    res.status(error.statusCode || 500).json({ message: error.message });
+  }
+};
+
 exports.getUserMe = async (req, res) => {
   try {
     const token = req.user
@@ -56,44 +71,6 @@ exports.getUserMe = async (req, res) => {
     
     res.status(200).json(userFound);
 
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message });
-  }
-};
-
-exports.getUsers = async (req, res) => {
-  await user.find({})
-    .orFail(() => {
-      const error = new Error('No se encontraron usuarios');
-      error.statusCode = 404;
-      throw error;
-    })
-    .then((usersFound) => res.status(200).json({ data: usersFound }))
-    .catch((err) => res.status(err.statusCode || 500).json({ message: err.message }));
-};
-
-exports.getUserById = async (req, res) => {
-  await user.findById(req.params.id)
-    .orFail(() => {
-      const error = new Error('No se encontró el usuario');
-      error.statusCode = 404;
-      throw error;
-    })
-    .then((userFound) => res.status(200).json({ data: userFound }))
-    .catch((err) => res.status(err.statusCode || 500).json({ message: err.message }));
-};
-
-
-exports.createUser = async (req, res) => {
-  try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 5);
-    const newUser = await user.create({ ...req.body, password: hashedPassword });
-    if (!newUser) {
-      const error = new Error('No se pudo crear el usuario');
-      error.statusCode = 500;
-      throw error;
-    }
-    res.status(201).json(newUser);
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
   }
@@ -134,3 +111,28 @@ exports.changendAvatarUserMe = async (req, res) => {
     res.status(error.statusCode || 500).json({ message: error.message });
   }
 };
+
+exports.getUsers = async (req, res) => {
+  await user.find({})
+    .orFail(() => {
+      const error = new Error('No se encontraron usuarios');
+      error.statusCode = 404;
+      throw error;
+    })
+    .then((usersFound) => res.status(200).json({ data: usersFound }))
+    .catch((err) => res.status(err.statusCode || 500).json({ message: err.message }));
+};
+
+exports.getUserById = async (req, res) => {
+  await user.findById(req.params.id)
+    .orFail(() => {
+      const error = new Error('No se encontró el usuario');
+      error.statusCode = 404;
+      throw error;
+    })
+    .then((userFound) => res.status(200).json({ data: userFound }))
+    .catch((err) => res.status(err.statusCode || 500).json({ message: err.message }));
+};
+
+
+
