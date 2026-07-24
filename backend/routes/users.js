@@ -12,11 +12,13 @@ router.post('/singin', login);
 
 router.post('/singup', createUser);
 
-router.get('/me', auth, getUserMe);
+router.use(auth)
 
 router.get('/', getUsers);
 
 router.get('/:id', getUserById);
+
+router.get('/me', getUserMe);
 
 router.put('/me', updateUser);
 
