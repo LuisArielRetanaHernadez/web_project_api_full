@@ -5,10 +5,13 @@ const {
 } = require('../controllers/card');
 
 const { protectCard } = require('../middlewares/protectCard');
+const { auth } = require('../middlewares/auth')
 
 const router = express.Router();
 
 router.get('/', getCards);
+
+router.use(auth)
 router.post('/', createCard);
 
 router.use(protectCard)
