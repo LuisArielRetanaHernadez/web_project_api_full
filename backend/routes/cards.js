@@ -4,10 +4,14 @@ const {
   getCards, createCard, deleteCard, likeCard, dislikeCard,
 } = require('../controllers/card');
 
+const { protectCard } = require('../middlewares/protectCard');
+
 const router = express.Router();
 
 router.get('/', getCards);
 router.post('/', createCard);
+
+router.use(protectCard)
 router.delete('/:cardId', deleteCard);
 router.put('/:cardId/likes', likeCard);
 router.delete('/:cardId/likes', dislikeCard);
