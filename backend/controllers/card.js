@@ -35,7 +35,9 @@ exports.deleteCard = async (req, res) => {
 
 exports.createCard = async (req, res) => {
   try {
-    const newCard = await card.create(req.body);
+    const idUser = req.user.id
+
+    const newCard = await card.create({...req.body, owner: idUser });
     if (!newCard) {
       const error = new Error('No se pudo crear la carta');
       error.statusCode = 500;
