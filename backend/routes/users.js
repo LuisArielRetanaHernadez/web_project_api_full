@@ -16,9 +16,9 @@ router.use(auth)
 
 router.get('/', getUsers);
 
-router.get('/:id', getUserById);
-
 router.get('/me', getUserMe);
+
+router.get('/:id', getUserById);
 
 router.put('/me', updateUser);
 
