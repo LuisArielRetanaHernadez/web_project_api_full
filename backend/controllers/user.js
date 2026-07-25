@@ -11,7 +11,7 @@ const { JWT_SECRET } = process.env;
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const userFound = await user.findOne({ email });
+    const userFound = await user.findOne({ email }).select('+password');
 
     if (!userFound) {
       const error = new Error('Email o contraseña incorrectos');
@@ -26,6 +26,9 @@ exports.login = async (req, res) => {
       throw error;
     }
     const token = jwt.sign({ id: userFound._id }, JWT_SECRET, { expiresIn: '7d' });
+
+    userFound.password = undefined
+    
     res.status(200).json(
       {
         token,
