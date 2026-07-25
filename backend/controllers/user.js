@@ -79,7 +79,7 @@ exports.getUserMe = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const updatedUser = await user.findByIdAndUpdate(
-      req.user._id,
+      req.user.id,
       req.body,
       { new: true },
     );
@@ -97,7 +97,7 @@ exports.updateUser = async (req, res) => {
 exports.changendAvatarUserMe = async (req, res) => {
   try {
     const updatedUser = await user.findByIdAndUpdate(
-      req.user._id,
+      req.user.id,
       { avatar: req.body.avatar },
       { new: true },
     );
