@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const { userRouter } = require('./routes/users.js');
 const { cardRouter } = require('./routes/cards.js');
 
+const {centralErrors} = require('./middlewares/centralErrors.js');
+
 const app = express();
 
 require('dotenv').config();
@@ -37,6 +39,8 @@ app.use((req, res, next) => {
 });
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
+console.log('type ', typeof centralErrors);
+app.use(centralErrors);
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
