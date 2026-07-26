@@ -1,24 +1,36 @@
 const jwt = require('jsonwebtoken');
+const { UnauthorizedError, ForbiddenError } = require('../utils/managerErrors');
 
 require('dotenv').config();
 
 const { JWT_SECRET } = process.env;
 
+exports.auth = (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
 
-exports.auth = async (req, res, next) => {
-  const token = req.headers.authorization.split(' ')[1];
-  if (!token) {
-    const error = new Error('No token provided');
-    error.statusCode = 401;
-    throw error;
-  }
-  const decoded = jwt.verify(token, JWT_SECRET);
-  if (!decoded) {
-    error.statusCode = 403
-    const error = new Error('Not Authorization')
-    throw error
-  }
+    if (!authHeader) {
+      throw new UnauthorizedError('No token provided');
+    }
 
-  req.user = decoded
-  return next()
+    const token = authHeader.split(' ')[1];
+
+    if (!token) {
+      throw new UnauthorizedError('No token provided');
+    }
+
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+    if (!decoded) {
+      throw new ForbiddenError('Not Authorization');
+    }
+
+    req.user = decoded;
+    return next();
+  } catch (error) {
+    if (error.name === 'JsonWebTokenError' || error.name === 'TokenExpiredError') {
+      return next(new ForbiddenError('Invalid token'));
+    }
+    return next(error);
+  }
 };
