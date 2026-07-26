@@ -2,140 +2,105 @@
 const user = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { NotFoundError, UnauthorizedError, InternalServerError } = require('../utils/managerErrors');
 
 require('dotenv').config();
 
 const { JWT_SECRET } = process.env;
 
-
 exports.login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const userFound = await user.findOne({ email }).select('+password');
+  const { email, password } = req.body;
+  const userFound = await user.findOne({ email }).select('+password');
 
-    if (!userFound) {
-      const error = new Error('Email o contraseña incorrectos');
-      error.statusCode = 404;
-      throw error;
-    }
-
-    const isMatch = await bcrypt.compare(password, userFound.password);
-    if (!isMatch) {
-      const error = new Error('Email o contraseña incorrectos');
-      error.statusCode = 401;
-      throw error;
-    }
-    const token = jwt.sign({ id: userFound._id }, JWT_SECRET, { expiresIn: '7d' });
-
-    userFound.password = undefined
-    
-    res.status(200).json(
-      {
-        token,
-        user: userFound,
-      },
-    );
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message });
+  if (!userFound) {
+    throw new NotFoundError('Email o contraseña incorrectos');
   }
+
+  const isMatch = await bcrypt.compare(password, userFound.password);
+  if (!isMatch) {
+    throw new UnauthorizedError('Email o contraseña incorrectos');
+  }
+
+  const token = jwt.sign({ id: userFound._id }, JWT_SECRET, { expiresIn: '7d' });
+  userFound.password = undefined;
+
+  res.status(200).json({
+    token,
+    user: userFound,
+  });
 };
 
 exports.createUser = async (req, res) => {
-  try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 5);
-    const newUser = await user.create({ ...req.body, password: hashedPassword });
-    if (!newUser) {
-      const error = new Error('No se pudo crear el usuario');
-      error.statusCode = 500;
-      throw error;
-    }
-    res.status(201).json(newUser);
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message });
+  const hashedPassword = await bcrypt.hash(req.body.password, 5);
+  const newUser = await user.create({ ...req.body, password: hashedPassword });
+
+  if (!newUser) {
+    throw new InternalServerError('No se pudo crear el usuario');
   }
+
+  res.status(201).json(newUser);
 };
 
 exports.getUserMe = async (req, res) => {
-  try {
-    const token = req.user
-    if (!token) {
-      const error = new Error('No token provided');
-      error.statusCode = 401;
-      throw error;
-    }
+  const tokenData = req.user;
 
-    const userFound = await user.findById(token.id);
-
-    if (!userFound) {
-      const error = new Error('No se encontró el usuario');
-      error.statusCode = 404;
-      throw error;
-    }
-    
-    res.status(200).json(userFound);
-
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message });
+  if (!tokenData) {
+    throw new UnauthorizedError('No token provided');
   }
+
+  const userFound = await user.findById(tokenData.id);
+
+  if (!userFound) {
+    throw new NotFoundError('No se encontró el usuario');
+  }
+
+  res.status(200).json(userFound);
 };
 
 exports.updateUser = async (req, res) => {
-  try {
-    const updatedUser = await user.findByIdAndUpdate(
-      req.user.id,
-      req.body,
-      { new: true },
-    );
-    if (!updatedUser) {
-      const error = new Error('No se pudo actualizar el usuario');
-      error.statusCode = 500;
-      throw error;
-    }
-    res.status(200).json(updatedUser);
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message });
+  const updatedUser = await user.findByIdAndUpdate(
+    req.user.id,
+    req.body,
+    { new: true },
+  );
+
+  if (!updatedUser) {
+    throw new InternalServerError('No se pudo actualizar el usuario');
   }
+
+  res.status(200).json(updatedUser);
 };
 
 exports.changendAvatarUserMe = async (req, res) => {
-  try {
-    const updatedUser = await user.findByIdAndUpdate(
-      req.user.id,
-      { avatar: req.body.avatar },
-      { new: true },
-    );
-    if (!updatedUser) {
-      const error = new Error('No se pudo actualizar el avatar');
-      error.statusCode = 500;
-      throw error;
-    }
-    res.status(200).json(updatedUser);
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message });
+  const updatedUser = await user.findByIdAndUpdate(
+    req.user.id,
+    { avatar: req.body.avatar },
+    { new: true },
+  );
+
+  if (!updatedUser) {
+    throw new InternalServerError('No se pudo actualizar el avatar');
   }
+
+  res.status(200).json(updatedUser);
 };
 
 exports.getUsers = async (req, res) => {
-  await user.find({})
-    .orFail(() => {
-      const error = new Error('No se encontraron usuarios');
-      error.statusCode = 404;
-      throw error;
-    })
-    .then((usersFound) => res.status(200).json({ data: usersFound }))
-    .catch((err) => res.status(err.statusCode || 500).json({ message: err.message }));
+  const usersFound = await user.find({});
+
+  if (!usersFound || usersFound.length === 0) {
+    throw new NotFoundError('No se encontraron usuarios');
+  }
+
+  res.status(200).json({ users: usersFound });
 };
 
 exports.getUserById = async (req, res) => {
-  await user.findById(req.params.id)
-    .orFail(() => {
-      const error = new Error('No se encontró el usuario');
-      error.statusCode = 404;
-      throw error;
-    })
-    .then((userFound) => res.status(200).json({ data: userFound }))
-    .catch((err) => res.status(err.statusCode || 500).json({ message: err.message }));
+  const userFound = await user.findById(req.params.id);
+
+  if (!userFound) {
+    throw new NotFoundError('No se encontró el usuario');
+  }
+
+  res.status(200).json({ user: userFound });
 };
-
-
-
