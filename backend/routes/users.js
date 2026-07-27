@@ -1,29 +1,29 @@
 const express = require('express');
 
 const {
-  getUsers, getUserById, getUserMe, createUser, updateUser, changendAvatarUserMe, login,
+  getUsers,
+  getUserById,
+  getUserMe,
+  createUser,
+  updateUser,
+  changendAvatarUserMe,
+  login,
 } = require('../controllers/user');
 
 const { auth } = require('../middlewares/auth');
-
 const asyncHandler = require('../utils/asyncHandler');
 
 const router = express.Router();
 
-router.post('/singin', asyncHandler(login));
+router.post('/signin', asyncHandler(login));
+router.post('/signup', asyncHandler(createUser));
 
-router.post('/singup', asyncHandler(createUser));
-
-router.use(auth)
+router.use(asyncHandler(auth));
 
 router.get('/', asyncHandler(getUsers));
-
 router.get('/me', asyncHandler(getUserMe));
-
 router.get('/:id', asyncHandler(getUserById));
-
 router.put('/me', asyncHandler(updateUser));
-
 router.patch('/me/avatar', asyncHandler(changendAvatarUserMe));
 
 module.exports = { userRouter: router };

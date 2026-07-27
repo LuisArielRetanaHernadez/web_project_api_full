@@ -1,24 +1,25 @@
 const express = require('express');
 
 const {
-  getCards, createCard, deleteCard, likeCard, dislikeCard,
+  getCards,
+  createCard,
+  deleteCard,
+  likeCard,
+  dislikeCard,
 } = require('../controllers/card');
 
 const { protectCard } = require('../middlewares/protectCard');
-const { auth } = require('../middlewares/auth')
+const { auth } = require('../middlewares/auth');
+const asyncHandler = require('../utils/asyncHandler');
 
 const router = express.Router();
 
-router.get('/', getCards);
+router.get('/', asyncHandler(getCards));
 
-router.put('/:cardId/likes', likeCard);
-router.delete('/:cardId/likes', dislikeCard);
+router.put('/:cardId/likes', auth, asyncHandler(likeCard));
+router.delete('/:cardId/likes', auth, asyncHandler(dislikeCard));
 
-router.use(auth)
-router.post('/', createCard);
-
-router.use(protectCard)
-router.delete('/:cardId', deleteCard);
-
+router.post('/', auth, asyncHandler(createCard));
+router.delete('/:cardId', auth, asyncHandler(protectCard), asyncHandler(deleteCard));
 
 module.exports = { cardRouter: router };
