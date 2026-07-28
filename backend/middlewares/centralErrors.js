@@ -1,3 +1,9 @@
+require('dotenv').config();
+
+const {NODE_ENV} = process.env;
+
+console.log('NODE_ENV:', NODE_ENV);
+
 exports.centralErrors = (err, req, res, next) => {
     err.statusCode = err.statusCode || 500;
     err.message = err.isOperational ? err.message : 'Internal Server Error';
