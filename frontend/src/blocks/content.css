@@ -1,0 +1,15 @@
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.content__seccion {
+  margin: auto;
+  margin-top: 40px;
+}
+
+@media screen and (max-width: 950px) {
+  .content__seccion {
+    margin: 40px 20px 0px;
+  }
+}

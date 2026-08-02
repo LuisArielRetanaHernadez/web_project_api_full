@@ -1,0 +1,26 @@
+.footer {
+  width: 100%;
+  max-width: 880px;
+  display: flex;
+}
+
+.footer__author {
+  margin-right: auto;
+  color: #545454;
+  font-size: 18px;
+}
+
+@media screen and (max-width: 950px) {
+  .footer {
+    width: auto;
+    background-color: red;
+  }
+}
+
+@media screen and (max-width: 545px) {
+  .footer__author {
+    width: 80vw;
+    margin: auto;
+    text-align: center;
+  }
+}

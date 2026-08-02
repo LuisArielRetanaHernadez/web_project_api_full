@@ -1,0 +1,82 @@
+.form {
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  color: #000;
+  background-color: #fff;
+}
+
+.form_bg_transparent_active {
+  background-color: transparent;
+}
+
+.form_display-flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.form__field-set {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+}
+
+.form__field-component {
+  margin-bottom: 25px;
+}
+
+.form__input {
+  padding: 5px;
+  font-size: 14px;
+  border: none;
+  border-bottom: 1px solid gray;
+  outline: none;
+}
+
+.form__input_bg_transparent {
+  background-color: transparent;
+}
+
+.form__input_type_error {
+  border-bottom: 1px solid red;
+}
+
+.form__error-message {
+  color: red;
+  font-size: 14px;
+}
+
+/* butto submit */
+.form__button-submit {
+  width: 100%;
+  padding: 15px 16px;
+  color: #fff;
+  border-radius: 0;
+  background-color: #000;
+}
+
+.form__button-submit_disabled {
+  cursor: not-allowed;
+  background-color: #000000c5;
+}
+
+/* ....... of del form nuu del footer principelpal ....... */
+
+.form__footer {
+  width: 100%;
+  margin-top: 15px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+}
+
+.form__footer > a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.form__footer a,
+p {
+  font-size: 14px;
+}

@@ -1,0 +1,22 @@
+.button {
+  padding: 10px 16px;
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  overflow: hidden;
+  background: #fff;
+  cursor: pointer;
+}
+
+.button_size_width_full {
+  width: 100%;
+}
+
+.button_rounde_none {
+  border-radius: 0px;
+}
+
+.button_font_size_md {
+  font-size: 18px;
+}

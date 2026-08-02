@@ -1,0 +1,49 @@
+.header {
+  width: 100%;
+  max-width: 880px;
+  min-height: 74px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #ffffff;
+}
+
+/* ........ Header NavBar ......... */
+.header__navbar {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.header__nav {
+  margin-left: auto;
+}
+
+.header__nav-item {
+  margin-left: 10px;
+  display: inline-block;
+}
+
+.header__nav-item a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.header__logout {
+  color: #ccc;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* ------ logotipo ----- */
+.header__logo {
+  margin-bottom: auto;
+}
+
+@media screen and (max-width: 950px) {
+  .header {
+    width: auto;
+  }
+}

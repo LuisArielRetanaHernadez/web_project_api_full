@@ -1,0 +1,50 @@
+.page {
+  min-width: 100%;
+  min-height: 100vh;
+  padding-bottom: 60px;
+  margin: auto;
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-variation-settings: "slnt" 0;
+  background-color: #000;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: minmax(74px, auto) minmax(auto, 1fr) max-content;
+  position: relative;
+}
+
+.page__header {
+  margin: auto;
+  margin-top: 45px;
+}
+
+.page__footer {
+  margin-top: 100px;
+  margin-bottom: 0;
+  position: absolute;
+  bottom: 0px;
+  right: 50%;
+  transform: translate(50%);
+}
+
+/* ........ media query max-width 950px ......... */
+
+@media screen and (max-width: 950px) {
+  .page__header {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  .page__footer {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
+
+/* ........ media query max-width 800px ......... */
+
+@media screen and (max-width: 800px) {
+  .page__header {
+    margin: 45px 0 0;
+    padding: 0 20px;
+  }
+}
