@@ -5,7 +5,7 @@ const { userRouter } = require('./routes/users.js');
 const { cardRouter } = require('./routes/cards.js');
 const { centralErrors } = require('./middlewares/centralErrors.js');
 
-const { requestLogger } =  require('./middlewares/logger.js')
+const { requestLogger, errorLogger } =  require('./middlewares/logger.js')
 
 const app = express();
 
@@ -36,6 +36,8 @@ app.use(requestLogger); // Middleware de registro de solicitudes
 
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
+
+app.use(errorLogger); // Middleware de registro de errores
 
 // Middleware de manejo de errores (debe estar al final)
 app.use(centralErrors);
