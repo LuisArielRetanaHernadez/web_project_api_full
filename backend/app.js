@@ -5,6 +5,8 @@ const { userRouter } = require('./routes/users.js');
 const { cardRouter } = require('./routes/cards.js');
 const { centralErrors } = require('./middlewares/centralErrors.js');
 
+const { requestLogger } =  require('./middlewares/logger.js')
+
 const app = express();
 
 require('dotenv').config();
@@ -29,6 +31,8 @@ connectToMongoDB();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(requestLogger); // Middleware de registro de solicitudes
 
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
