@@ -1,14 +1,22 @@
 // constat
 import {
-  TOKEN,
   URL_BASE,
   GroupId
 } from '../contast/contast';
+import { getToken } from './token';
 
 class Api {
   constructor(options) {
     this._baseUrl = options.baseUrl;
     this._headers = options.headers;
+  }
+
+  setAuthToken(token) {
+    if (token) {
+      this._headers.authorization = token
+    } else {
+      delete this._headers.authorization
+    }
   }
 
   async getInitialCards() {
@@ -146,7 +154,7 @@ class Api {
 const api = new Api({
   baseUrl: `${URL_BASE}/v1/${GroupId}`,
   headers: {
-    authorization: TOKEN,
+    authorization: getToken() || '',
     "Content-Type": "application/json"
   }
 });
