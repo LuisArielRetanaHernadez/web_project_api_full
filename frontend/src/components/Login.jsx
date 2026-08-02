@@ -2,7 +2,6 @@ import { useContext, useState } from "react"
 import { Link } from "react-router-dom"
 import { login } from "../utils/auth"
 import AppContext from "../context/ApiContext"
-import { setToken } from "../utils/token"
 
 const Login = () => {
   const [data, setData] = useState({
@@ -10,7 +9,7 @@ const Login = () => {
     password: ''
   })
 
-  const { setIsLoggedIn } = useContext(AppContext)
+  const { setIsLoggedIn, setToken } = useContext(AppContext)
 
   const handleChange = e => {
     setData({
@@ -35,7 +34,7 @@ const Login = () => {
     if (response.error) {
       return new Error(response.error.message)
     }
-    setToken(response.token)
+    if (setToken) setToken(response.token)
     setIsLoggedIn(true)
   }
   return (
