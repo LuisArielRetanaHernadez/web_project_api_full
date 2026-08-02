@@ -7,6 +7,8 @@ const { centralErrors } = require('./middlewares/centralErrors.js');
 
 const { requestLogger, errorLogger } =  require('./middlewares/logger.js')
 
+const cors = require('cors');
+
 const app = express();
 
 require('dotenv').config();
@@ -28,6 +30,13 @@ async function connectToMongoDB() {
 }
 
 connectToMongoDB();
+
+app.use(cors({
+  origin: ['http://localhost:5173', '*'], // Reemplaza con el origen de tu frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true // Permitir cookies y credenciales
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
