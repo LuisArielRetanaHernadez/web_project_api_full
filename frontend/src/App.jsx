@@ -10,10 +10,13 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import { getToken } from './utils/token'
 import { getUserInfo } from './utils/auth'
+import api from './utils/api'
+import { setToken as setTokenStorage } from './utils/token'
 
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [token, setToken] = useState(getToken())
 
   useEffect(() => {
     const jwt = getToken()
@@ -35,7 +38,11 @@ function App() {
 
   return (
     <div className='page'>
-      <AppContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+      <AppContext.Provider value={{ isLoggedIn, setIsLoggedIn, token, setToken: (t) => {
+        setTokenStorage(t)
+        setToken(t)
+        api.setAuthToken(t)
+      } }}>
         <Header />
         <Routes>
           <Route path='/' element={
