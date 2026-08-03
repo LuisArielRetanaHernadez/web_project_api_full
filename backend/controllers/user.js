@@ -38,7 +38,11 @@ exports.createUser = async (req, res) => {
     throw new InternalServerError('No se pudo crear el usuario');
   }
 
-  res.status(201).json(newUser);
+  res.status(201).json({
+    message: 'Usuario creado exitosamente',
+    user: newUser,
+  }
+  );
 };
 
 exports.getUserMe = async (req, res) => {
