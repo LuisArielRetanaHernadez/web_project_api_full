@@ -72,7 +72,10 @@ exports.updateUser = async (req, res) => {
     throw new InternalServerError('No se pudo actualizar el usuario');
   }
 
-  res.status(200).json(updatedUser);
+  res.status(200).json({
+    message: 'Usuario actualizado exitosamente',
+    user: updatedUser,
+  });
 };
 
 exports.changendAvatarUserMe = async (req, res) => {
@@ -86,7 +89,10 @@ exports.changendAvatarUserMe = async (req, res) => {
     throw new InternalServerError('No se pudo actualizar el avatar');
   }
 
-  res.status(200).json(updatedUser);
+  res.status(200).json({
+    message: 'Avatar actualizado exitosamente',
+    user: updatedUser,
+  });
 };
 
 exports.getUsers = async (req, res) => {
