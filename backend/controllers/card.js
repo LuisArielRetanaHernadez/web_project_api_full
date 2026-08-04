@@ -12,6 +12,17 @@ exports.getCards = async (req, res) => {
   res.status(200).json({ data: cardsFound });
 };
 
+exports.getCardsByIdUser = async (req, res) => {
+  const cardsFound = await card.find({ owner: req.params.userId });
+  if (!cardsFound || cardsFound.length === 0) {
+    throw new NotFoundError('No se encontraron cartas para este usuario');
+  }
+  res.status(200).json({ 
+    message: 'Cartas encontradas para este usuario',
+    cards: cardsFound
+  });
+}
+
 exports.deleteCard = async (req, res) => {
   const cardDelete = await card.findById(req.params.cardId);
 

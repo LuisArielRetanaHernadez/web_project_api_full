@@ -2,6 +2,7 @@ const express = require('express');
 
 const {
   getCards,
+  getCardsByIdUser,
   createCard,
   deleteCard,
   likeCard,
@@ -17,6 +18,7 @@ const { createCardSchema, deleteCardSchema } = require('../middlewares/celebrate
 const router = express.Router();
 
 router.get('/', asyncHandler(getCards));
+router.get('/:userId', asyncHandler(getCardsByIdUser));
 
 router.put('/:cardId/likes', auth, asyncHandler(likeCard));
 router.delete('/:cardId/likes', auth, asyncHandler(dislikeCard));
