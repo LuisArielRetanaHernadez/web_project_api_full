@@ -152,7 +152,7 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: `${URL_BASE}/v1/${GroupId}`,
+  baseUrl: `${URL_BASE}/}`,
   headers: {
     authorization: getToken() || '',
     "Content-Type": "application/json"
