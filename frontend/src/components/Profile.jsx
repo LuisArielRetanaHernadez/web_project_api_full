@@ -57,7 +57,8 @@ function Profile() {
       try {
         const response = await api.getInitialCards()
 
-        setCards(response)
+
+        setCards(response.cards)
       } catch (err) {
         console.log('Error al cargar las tarjetas iniciales:', err)
       }
