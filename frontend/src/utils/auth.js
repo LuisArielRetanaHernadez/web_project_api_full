@@ -1,7 +1,7 @@
-export const BASE_URL = "https://se-register-api.en.tripleten-services.com/v1"
+import { URL_BASE } from '../contast/contast.js'
 
 export const register = async (password, email) => {
-  const response = await fetch(`${BASE_URL}/signup`, {
+  const response = await fetch(`${URL_BASE}signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -17,7 +17,7 @@ export const register = async (password, email) => {
 }
 
 export const login = async (password, email) => {
-  const response = await fetch(`${BASE_URL}/signin`, {
+  const response = await fetch(`${URL_BASE}users/signin`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -33,7 +33,7 @@ export const login = async (password, email) => {
 }
 
 export const getUserInfo = async (token) => {
-  const response = await fetch(`${BASE_URL}/users/me`, {
+  const response = await fetch(`${URL_BASE}users/me`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
