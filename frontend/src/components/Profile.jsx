@@ -19,16 +19,15 @@ import { CurrentUserContext } from '../context/CurrentUserContext';
 // Api
 import api from '../utils/api';
 
-const userDateInit = {
-  _id: null,
-  name: null,
-  email: null,
-  avatar: null,
-}
 
 function Profile() {
 
-  const [currentUser, setCurrentUser] = useState(userDateInit)
+  const [currentUser, setCurrentUser] = useState({
+    _id: null,
+    name: null,
+    email: null,
+    avatar: null,
+  })
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false)
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false)
@@ -42,22 +41,25 @@ function Profile() {
   useEffect(() => {
     api.getUserInfo()
       .then((res) => {
-        console.log(res)
-        setCurrentUser(res)
+        setCurrentUser({
+          _id: res._id,
+          name: res.name,
+          email: res.email,
+          avatar: res.avatar
+        })
       })
       .catch((err) => {
         setCurrentUser(null)
-        console.log(err)
       })
 
 
     const loadCardsInitial = async () => {
       try {
         const response = await api.getInitialCards()
-        console.log("response loading card ", response)
+
         setCards(response)
       } catch (err) {
-        console.log(err)
+        console.log('Error al cargar las tarjetas iniciales:', err)
       }
     }
 
@@ -78,7 +80,6 @@ function Profile() {
   }
 
   const handleCardClick = (card) => {
-    console.log(card)
     setSelectedCard(card)
   }
 
@@ -100,7 +101,7 @@ function Profile() {
         closeAllPopups()
       })
       .catch((err) => {
-        console.log(err)
+        console.log('Error al actualizar la información del usuario:', err)
       })
   }
 
@@ -114,7 +115,7 @@ function Profile() {
         closeAllPopups()
       })
       .catch((err) => {
-        console.log(err)
+        console.log('Error al actualizar el avatar del usuario:', err)
       })
   }
 
@@ -124,7 +125,7 @@ function Profile() {
     const isLiked = card.likes.some(({ _id }) => _id === currentUser._id)
 
     api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-      console.log(newCard)
+
       setCards((state) => state.map((c) => {
         if (c._id === newCard._id) {
           return newCard
@@ -148,7 +149,7 @@ function Profile() {
         closeAllPopups()
       })
       .catch((err) => {
-        console.log(err)
+        console.log('Error al agregar la tarjeta:', err)
       })
   }
 
