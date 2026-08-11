@@ -58,7 +58,9 @@ exports.getUserMe = async (req, res) => {
     throw new NotFoundError('No se encontró el usuario');
   }
 
-  res.status(200).json(userFound);
+  res.status(200).json({
+    user: userFound,
+  });
 };
 
 exports.updateUser = async (req, res) => {
