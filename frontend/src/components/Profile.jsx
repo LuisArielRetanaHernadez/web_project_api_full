@@ -42,10 +42,10 @@ function Profile() {
     api.getUserInfo()
       .then((res) => {
         setCurrentUser({
-          _id: res._id,
-          name: res.name,
-          email: res.email,
-          avatar: res.avatar
+          _id: res.user._id,
+          name: res.user.name,
+          email: res.user.email,
+          avatar: res.user.avatar
         })
       })
       .catch((err) => {
@@ -96,8 +96,8 @@ function Profile() {
       .then((res) => {
         setCurrentUser({
           ...currentUser,
-          name: res.name,
-          about: res.about
+          name: res.user.name,
+          about: res.user.about
         })
         closeAllPopups()
       })
@@ -111,7 +111,7 @@ function Profile() {
       .then((res) => {
         setCurrentUser({
           ...currentUser,
-          avatar: res.avatar
+          avatar: res.user.avatar
         })
         closeAllPopups()
       })
