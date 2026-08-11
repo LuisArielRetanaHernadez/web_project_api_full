@@ -55,7 +55,7 @@ function Profile() {
 
     const loadCardsInitial = async () => {
       try {
-        const response = await api.getInitialCards()
+        const response = await api.getCardsByUserId(currentUser._id)
 
 
         setCards(response.cards)
