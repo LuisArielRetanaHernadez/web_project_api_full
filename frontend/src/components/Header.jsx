@@ -6,6 +6,7 @@ import AppContext from "../context/ApiContext";
 import logo from "../images/logo.svg"
 import { getUserInfo } from "../utils/auth";
 import { getToken, removeToken } from "../utils/token";
+
 const Header = () => {
   const [data, setData] = useState({
     email: ''
@@ -18,7 +19,7 @@ const Header = () => {
     const userInfo = async () => {
       const jwt = getToken()
       const user = await getUserInfo(jwt)
-      setData(prev => ({ ...prev, email: user.data.email }))
+      setData(prev => ({ ...prev, email: user.user.email }))
     }
 
     if (isLoggedIn) {
