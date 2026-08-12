@@ -108,8 +108,19 @@ class Api {
 
   // users
 
-  async getUserInfo() {
-    const res = await fetch(`${this._baseUrl}/users/me`, {
+  async getUserById(userId) {
+    const res = await fetch(`${this._baseUrl}/users/${userId}`, {
+      headers: this._headers
+    });
+    if (res.ok) {
+      return res.json();
+    }
+    return await Promise.reject(`Error: ${res.status}`);
+  }
+
+  async getUserMe() {
+    const res = await fetch(`${this._baseUrl}users/me`, {
+      method: 'GET',
       headers: this._headers
     });
     if (res.ok) {
@@ -163,7 +174,7 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: `${URL_BASE}}`,
+  baseUrl: `${URL_BASE}`,
   headers: {
     authorization: getToken() || '',
     "Content-Type": "application/json"
