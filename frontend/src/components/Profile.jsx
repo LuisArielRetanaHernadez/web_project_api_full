@@ -39,7 +39,7 @@ function Profile() {
 
 
   useEffect(() => {
-    api.getUserInfo()
+    api.getUserMe()
       .then((res) => {
         setCurrentUser({
           _id: res.user._id,
