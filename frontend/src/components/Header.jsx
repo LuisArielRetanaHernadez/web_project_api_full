@@ -4,8 +4,8 @@ import { useContext, useState, useEffect } from "react";
 import AppContext from "../context/ApiContext";
 
 import logo from "../images/logo.svg"
-import { getUserInfo } from "../utils/auth";
 import { getToken, removeToken } from "../utils/token";
+import api from "../utils/api";
 
 const Header = () => {
   const [data, setData] = useState({
@@ -17,8 +17,7 @@ const Header = () => {
 
   useEffect(() => {
     const userInfo = async () => {
-      const jwt = getToken()
-      const user = await getUserInfo(jwt)
+      const user = await api.getUserMe()
       setData(prev => ({ ...prev, email: user.user.email }))
     }
 
