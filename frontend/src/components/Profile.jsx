@@ -52,20 +52,20 @@ function Profile() {
         setCurrentUser(null)
       })
 
+  }, [])
 
+  useEffect(() => {
     const loadCardsInitial = async () => {
       try {
         const response = await api.getCardsByUserId(currentUser._id)
-
-
         setCards(response.cards)
       } catch (err) {
         console.log('Error al cargar las tarjetas iniciales:', err)
       }
     }
 
-    loadCardsInitial()
-  }, [])
+    currentUser._id && loadCardsInitial()
+  }, [currentUser._id])
 
 
   const handleEditAvatarClick = () => {
