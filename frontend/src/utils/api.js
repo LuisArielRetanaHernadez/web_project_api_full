@@ -73,7 +73,7 @@ class Api {
   // likes card
 
   async likeCard(cardId) {
-    const res = await fetch(`${this._baseUrl}cards/likes/${cardId}`, {
+    const res = await fetch(`${this._baseUrl}cards/${cardId}/likes`, {
       method: 'PUT',
       headers: this._headers
     });
@@ -86,7 +86,7 @@ class Api {
   }
 
   async likeCardDelete(cardId) {
-    const res = await fetch(`${this._baseUrl}cards/likes/${cardId}`, {
+    const res = await fetch(`${this._baseUrl}cards/${cardId}/likes`, {
       method: 'DELETE',
       headers: this._headers
     });
@@ -98,11 +98,11 @@ class Api {
     return await Promise.reject(`Error: ${res.status}`);
   }
 
-  async changeLikeCardStatus(cardId, isLiked) {
-    if (isLiked) {
-      return this.likeCard(cardId);
-    } else {
+  async changeLikeCardStatus(cardId, hasLiked) {
+    if (hasLiked) {
       return this.likeCardDelete(cardId);
+    } else {
+      return this.likeCard(cardId);
     }
   }
 
