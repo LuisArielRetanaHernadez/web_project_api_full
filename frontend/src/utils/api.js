@@ -2,7 +2,7 @@
 import {
   URL_BASE,
   GroupId
-} from '../contast/contast';
+} from '../contast/contast.js';
 import { getToken } from './token';
 
 class Api {
