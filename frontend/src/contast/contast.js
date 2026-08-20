@@ -8,4 +8,4 @@ export const profileState = document.querySelector('.profile__state')
 export const profileImage = document.querySelector('.profile__image')
 export const TOKEN = '0bde4dfd-272d-45a8-acdc-8bd77ebd5e3d'
 export const GroupId = 'web-es-cohort-16'
-export const URL_BASE = import.meta.env.MODE === 'development' ? import.meta.env.URL_API_DEVELOPMENT : import.meta.env.URL_API_PRODUCTION
+export const URL_BASE = import.meta.env.VITE_API_URL
