@@ -80,7 +80,7 @@ const Main = ({
         <div className="elements__cards">
           {/* <!-- Card --> */}
           {cards?.length > 0 && cards.map((card, index) => (
-            <Card key={card._id} _id={card._id} title={card.name} url={card.link} likes={card.likes} isLikes={false} onCardClick={onCardClick} onCardLike={onCardLike} onCardDelete={onCardDelete} />
+            <Card key={card._id} _id={card._id} title={card.name} url={card.link} likes={card.likes} isLikes={false} IdOnwer={card.owner} onCardClick={onCardClick} onCardLike={onCardLike} onCardDelete={onCardDelete} />
           ))}
         </div>
         <template id="template-card">
