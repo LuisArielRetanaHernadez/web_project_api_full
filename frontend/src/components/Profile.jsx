@@ -49,6 +49,7 @@ function Profile() {
           _id: res.user._id,
           name: res.user.name,
           email: res.user.email,
+          about: res.user.about,
           avatar: res.user.avatar
         })
       })
