@@ -33,7 +33,7 @@ connectToMongoDB();
 
 app.use(cors({
   origin: ['http://localhost:5173', 'https://web-project-api-full-br6h.vercel.app', '*'], // Reemplaza con el origen de tu frontend
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true // Permitir cookies y credenciales
 }));
