@@ -34,8 +34,10 @@ const Login = () => {
     if (response.error) {
       return new Error(response.error.message)
     }
-    if (setToken) setToken(response.token)
-    setIsLoggedIn(true)
+    if (response.token) {
+      if (setToken) setToken(response.token)
+      setIsLoggedIn(true)
+    }
   }
   return (
     <div className="auth">
