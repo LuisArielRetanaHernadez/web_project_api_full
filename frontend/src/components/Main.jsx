@@ -43,7 +43,7 @@ const Main = ({
           </div>
           <img
             className="profile__image"
-            src={currentUser.avatar}
+            src={currentUser?.avatar}
             alt="avatar user me"
           />
         </div>
@@ -62,10 +62,10 @@ const Main = ({
                 alt="icon diagonal hover"
               />
             </span>
-            <p className="profile__name">{currentUser.name}</p>
+            <p className="profile__name">{currentUser?.name}</p>
           </div>
 
-          <p className="profile__state">{currentUser.about}</p>
+          <p className="profile__state">{currentUser?.about}</p>
         </div>
 
         <button className="button profile__button-add-target" onClick={onAddPlaceClick}>
