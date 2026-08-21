@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 
 // --> components 
 
@@ -15,6 +15,9 @@ import AddPlacePopup from './AddPlacePopup';
 
 // CurrentUserContext
 import { CurrentUserContext } from '../context/CurrentUserContext';
+
+// AppContext
+import AppContext from '../context/ApiContext';
 
 // Api
 import api from '../utils/api';
@@ -37,6 +40,7 @@ function Profile() {
 
   const [cards, setCards] = useState([])
 
+  const { token } = useContext(AppContext)
 
   useEffect(() => {
     api.getUserMe()
@@ -49,10 +53,10 @@ function Profile() {
         })
       })
       .catch((err) => {
-        setCurrentUser(null)
+        setCurrentUser(currentUser)
       })
 
-  }, [])
+  }, [token])
 
   useEffect(() => {
     const loadCardsInitial = async () => {
@@ -174,16 +178,19 @@ function Profile() {
         {/* <Footer /> */}
         {/* <!-- Popup to open the create card form --> */}
 
-        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlaceSubmit={handleAddPlaceSubmit} />
+        {isAddPlacePopupOpen && (
+          <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlaceSubmit={handleAddPlaceSubmit} />
+        )}
 
         {/* <!-- Popup to open the update profile form --> */}
-        <EdithProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
-
-
+        {isEditProfilePopupOpen && (
+          <EdithProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
+        )}
 
         {/* <!-- popup update image user me --> */}
-        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
-
+        {isEditAvatarPopupOpen && (
+          <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
+        )}
 
         {/* <!-- Popup to open the imagen of selected card --> */}
 
