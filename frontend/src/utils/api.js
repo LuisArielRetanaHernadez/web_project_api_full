@@ -145,7 +145,7 @@ class Api {
 
   async updateUserInfo(name, about) {
     const res = await fetch(`${this._baseUrl}users/me`, {
-      method: 'PATCH',
+      method: 'PUT',
       headers: this._headers,
       body: JSON.stringify({
         name: name,
