@@ -13,9 +13,9 @@ class Api {
 
   setAuthToken(token) {
     if (token) {
-      this._headers.authorization = token
+      this._headers.Authorization = `Bearer ${token}`;
     } else {
-      delete this._headers.authorization
+      delete this._headers.Authorization
     }
   }
 
@@ -176,7 +176,7 @@ class Api {
 const api = new Api({
   baseUrl: `${URL_BASE}`,
   headers: {
-    authorization: `Bearer ${getToken()}` || '',
+    "Authorization": `Bearer ${getToken()}` || '',
     "Content-Type": "application/json"
   }
 });
