@@ -6,21 +6,18 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
   name: {
     type: String,
-    required: true,
     default: 'Jacques Cousteau',
     minlength: 2,
     maxlength: 30,
   },
   about: {
     type: String,
-    required: true,
     default: 'Explorer',
     minlength: 2,
     maxlength: 30,
   },
   avatar: {
     type: String,
-    required: true,
     validate: {
       validator: (v) => /^https?:\/\/.*/.test(v),
       message: 'Invalid URL',
