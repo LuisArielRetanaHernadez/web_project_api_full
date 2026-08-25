@@ -8,6 +8,7 @@ const Login = () => {
     email: '',
     password: ''
   })
+  const [error, setError] = useState(null)
 
   const { setIsLoggedIn, setToken } = useContext(AppContext)
 
@@ -31,8 +32,9 @@ const Login = () => {
 
     const response = await login(data.password, data.email)
 
-    if (response.error) {
-      return new Error(response.error.message)
+    if (!response.success && response.status !== 200) {
+      setError(response.message)
+      return
     }
     if (response.token) {
       if (setToken) setToken(response.token)
@@ -63,6 +65,7 @@ const Login = () => {
               onChange={handleChange}
             />
           </div>
+          {error && <span className="form__error-message">{error}</span>}
 
           <button className="button button_size_width_full button_rounde_none button_font_size_md auth__button-submit ">Iniciar Session</button>
           <div className="form__footer">
