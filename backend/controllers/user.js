@@ -13,7 +13,7 @@ exports.login = async (req, res) => {
   const userFound = await user.findOne({ email }).select('+password');
 
   if (!userFound) {
-    throw new NotFoundError('Email o contraseña incorrectos');
+    throw new UnauthorizedError('Email o contraseña incorrectos');
   }
 
   const isMatch = await bcrypt.compare(password, userFound.password);
