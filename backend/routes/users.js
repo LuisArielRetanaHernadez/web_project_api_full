@@ -22,9 +22,6 @@ const {
 
 const router = express.Router();
 
-router.post('/signin', loginUserSchema, asyncHandler(login));
-router.post('/signup', registerUserSchema, asyncHandler(createUser));
-
 router.use(asyncHandler(auth));
 
 router.get('/', asyncHandler(getUsers));

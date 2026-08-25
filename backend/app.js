@@ -7,7 +7,12 @@ const { centralErrors } = require('./middlewares/centralErrors.js');
 
 const { requestLogger, errorLogger } =  require('./middlewares/logger.js')
 
+const { loginUserSchema, registerUserSchema } = require('./middlewares/celebrate/user.js')
+;
+const asyncHandler = require('./utils/asyncHandler.js');
+
 const cors = require('cors');
+
 
 const app = express();
 
@@ -42,6 +47,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(requestLogger); // Middleware de registro de solicitudes
+
+app.post('/signin', loginUserSchema, asyncHandler(login));
+app.post('/signup', registerUserSchema, asyncHandler(createUser));
 
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
