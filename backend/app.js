@@ -52,6 +52,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(requestLogger); // Middleware de registro de solicitudes
 
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('El servidor se ha caído intencionalmente');
+  }, 0);
+});
+
 app.post('/signin', loginUserSchema, asyncHandler(login));
 app.post('/signup', registerUserSchema, asyncHandler(createUser));
 
