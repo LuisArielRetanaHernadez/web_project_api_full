@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 
 const { userRouter } = require('./routes/users.js');
 const { cardRouter } = require('./routes/cards.js');
+
+const { login, createUser } = require('./controllers/user.js');
+
 const { centralErrors } = require('./middlewares/centralErrors.js');
 
 const { requestLogger, errorLogger } =  require('./middlewares/logger.js')
@@ -12,6 +15,7 @@ const { loginUserSchema, registerUserSchema } = require('./middlewares/celebrate
 const asyncHandler = require('./utils/asyncHandler.js');
 
 const cors = require('cors');
+
 
 
 const app = express();
