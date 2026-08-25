@@ -25,6 +25,8 @@ exports.login = async (req, res) => {
   userFound.password = undefined;
 
   res.status(200).json({
+    success: true,
+    status: 200,
     token,
     user: userFound,
   });
@@ -39,6 +41,8 @@ exports.createUser = async (req, res) => {
   }
 
   res.status(201).json({
+    success: true,
+    status: 201,
     message: 'Usuario creado exitosamente',
     user: newUser,
   }
@@ -59,6 +63,8 @@ exports.getUserMe = async (req, res) => {
   }
 
   res.status(200).json({
+    success: true,
+    status: 200,
     user: userFound,
   });
 };
@@ -75,6 +81,8 @@ exports.updateUser = async (req, res) => {
   }
 
   res.status(200).json({
+    success: true,
+    status: 200,
     message: 'Usuario actualizado exitosamente',
     user: updatedUser,
   });
@@ -92,6 +100,8 @@ exports.changendAvatarUserMe = async (req, res) => {
   }
 
   res.status(200).json({
+    success: true,
+    status: 200,
     message: 'Avatar actualizado exitosamente',
     user: updatedUser,
   });
@@ -104,7 +114,7 @@ exports.getUsers = async (req, res) => {
     throw new NotFoundError('No se encontraron usuarios');
   }
 
-  res.status(200).json({ users: usersFound });
+  res.status(200).json({ success: true, status: 200, users: usersFound });
 };
 
 exports.getUserById = async (req, res) => {
@@ -114,5 +124,5 @@ exports.getUserById = async (req, res) => {
     throw new NotFoundError('No se encontró el usuario');
   }
 
-  res.status(200).json({ user: userFound });
+  res.status(200).json({ success: true, status: 200, user: userFound });
 };

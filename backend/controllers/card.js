@@ -9,7 +9,7 @@ exports.getCards = async (req, res) => {
     throw new NotFoundError('No se encontraron cartas');
   }
 
-  res.status(200).json({ data: cardsFound });
+  res.status(200).json({ success: true, status: 200, data: cardsFound });
 };
 
 exports.getCardsByIdUser = async (req, res) => {
@@ -17,11 +17,13 @@ exports.getCardsByIdUser = async (req, res) => {
   if (!cardsFound || cardsFound.length === 0) {
     throw new NotFoundError('No se encontraron cartas para este usuario');
   }
-  res.status(200).json({ 
+  res.status(200).json({
+    success: true,
+    status: 200,
     message: 'Cartas encontradas para este usuario',
-    cards: cardsFound
+    cards: cardsFound,
   });
-}
+};
 
 exports.deleteCard = async (req, res) => {
   const cardDelete = await card.findById(req.params.cardId);
@@ -35,7 +37,7 @@ exports.deleteCard = async (req, res) => {
   }
 
   await card.deleteOne({ _id: req.params.cardId });
-  res.status(200).json({ message: 'Carta eliminada' });
+  res.status(204).json({ success: true, status: 200, message: 'Carta eliminada' });
 };
 
 exports.createCard = async (req, res) => {
@@ -47,7 +49,7 @@ exports.createCard = async (req, res) => {
     throw new InternalServerError('No se pudo crear la carta');
   }
 
-  res.status(201).json(newCard);
+  res.status(201).json({ ...newCard.toObject(), success: true, status: 201 });
 };
 
 exports.likeCard = async (req, res) => {
@@ -61,7 +63,7 @@ exports.likeCard = async (req, res) => {
     throw new InternalServerError('No se pudo actualizar la carta');
   }
 
-  res.status(200).json(updatedCard);
+  res.status(200).json({ ...updatedCard.toObject(), success: true, status: 200 });
 };
 
 exports.dislikeCard = async (req, res) => {
@@ -75,5 +77,5 @@ exports.dislikeCard = async (req, res) => {
     throw new InternalServerError('No se pudo actualizar la carta');
   }
 
-  res.status(200).json(updatedCard);
+  res.status(200).json({ ...updatedCard.toObject(), success: true, status: 200 });
 };
