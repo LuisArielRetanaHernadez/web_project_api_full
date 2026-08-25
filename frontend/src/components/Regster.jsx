@@ -8,6 +8,8 @@ const Register = () => {
     email: '',
     password: ''
   })
+  const [error, setError] = useState(null)
+
   const navigate = useNavigate()
 
   const handleChange = e => {
@@ -32,9 +34,12 @@ const Register = () => {
     }
 
     const response = await register(data.password, data.email)
-    if (response.error) {
-      return new Error(response.error.message)
+
+    if (!response.success && response.status != 201) {
+      setError(response.message)
+      return
     }
+
     navigate('/Login')
   }
   return (
@@ -62,6 +67,7 @@ const Register = () => {
               onChange={handleChange}
             />
           </div>
+          {error && <span className="form__error-message">{error}</span>}
 
           <button className="button button_size_width_full button_rounde_none button_font_size_md auth__button-submit">Registrate</button>
           <div className="form__footer">
