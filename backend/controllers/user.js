@@ -2,7 +2,7 @@
 const user = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { NotFoundError, UnauthorizedError, InternalServerError } = require('../utils/managerErrors');
+const { NotFoundError, UnauthorizedError, InternalServerError, ConflictError } = require('../utils/managerErrors');
 
 require('dotenv').config();
 
@@ -34,6 +34,12 @@ exports.login = async (req, res) => {
 
 exports.createUser = async (req, res) => {
   const hashedPassword = await bcrypt.hash(req.body.password, 5);
+  const existingUser = await user.findOne({ email: req.body.email });
+  
+  if (existingUser) {
+    throw new ConflictError('El usuario ya existe');
+  }
+
   const newUser = await user.create({ ...req.body, password: hashedPassword });
 
   if (!newUser) {

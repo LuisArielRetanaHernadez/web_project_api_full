@@ -39,11 +39,18 @@ class InternalServerError extends BaseError {
     }
 }
 
+class ConflictError extends BaseError {
+    constructor(message = 'Conflict', statusCode = 409) {
+        super(message, statusCode);
+    }
+}
+
 module.exports = {
     BaseError,
     NotFoundError,
     UnauthorizedError,
     ForbiddenError,
     BadRequestError,
+    ConflictError,
     InternalServerError
 };
