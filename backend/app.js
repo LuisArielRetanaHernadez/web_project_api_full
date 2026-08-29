@@ -42,7 +42,7 @@ async function connectToMongoDB() {
 connectToMongoDB();
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://web-project-api-full-br6h.vercel.app', 'https://webfullapi.vercel.app', '*'], // Reemplaza con el origen de tu frontend
+  origin: ['http://localhost:5173', 'https://web-project-api-full-br6h.vercel.app', 'https://webfullapi.vercel.app', 'https://aroundwebfull.chickenkiller.com', 'http://aroundwebfull.chickenkiller.com'], // Reemplaza con el origen de tu frontend
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true // Permitir cookies y credenciales
