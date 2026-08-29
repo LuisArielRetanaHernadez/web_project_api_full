@@ -4,8 +4,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { NotFoundError, UnauthorizedError, InternalServerError, ConflictError } = require('../utils/managerErrors');
 
-require('dotenv').config();
-
 const { JWT_SECRET } = process.env;
 
 exports.login = async (req, res) => {

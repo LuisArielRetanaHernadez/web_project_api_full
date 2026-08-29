@@ -1,6 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '.env') });
+
 const { userRouter } = require('./routes/users.js');
 const { cardRouter } = require('./routes/cards.js');
 
@@ -11,7 +14,7 @@ const { centralErrors } = require('./middlewares/centralErrors.js');
 const { requestLogger, errorLogger } =  require('./middlewares/logger.js')
 
 const { loginUserSchema, registerUserSchema } = require('./middlewares/celebrate/user.js')
-;
+
 const asyncHandler = require('./utils/asyncHandler.js');
 
 const cors = require('cors');
@@ -19,8 +22,6 @@ const cors = require('cors');
 
 
 const app = express();
-
-require('dotenv').config();
 
 const { PORT = 3000, MONGO_URL } = process.env;
 

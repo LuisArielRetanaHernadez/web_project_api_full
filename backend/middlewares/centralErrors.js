@@ -1,14 +1,11 @@
-require('dotenv').config();
 
-const {NODE_ENV} = process.env;
-
-console.log('NODE_ENV:', NODE_ENV);
+const { NODE_ENV } = process.env;
 
 exports.centralErrors = (err, req, res, next) => {
     err.statusCode = err.statusCode || 500;
     err.message = err.isOperational ? err.message : 'Internal Server Error';
 
-    if (process.env.NODE_ENV === 'development') {
+    if (NODE_ENV === 'development') {
         return res.status(err.statusCode).json({
             success: false,
             status: err.statusCode,
@@ -18,7 +15,7 @@ exports.centralErrors = (err, req, res, next) => {
         });
     }
     else
-        if (process.env.NODE_ENV === 'production') {
+        if (NODE_ENV === 'production') {
             return res.status(err.statusCode).json({
                 success: false,
                 status: err.statusCode,

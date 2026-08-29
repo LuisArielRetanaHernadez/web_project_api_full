@@ -2,7 +2,6 @@ const winston = require('winston');
 const expressWinston = require('express-winston');
 const { WinstonTransport } = require('@axiomhq/winston');
 
-require('dotenv').config();
 
 // configurar winston con axiom para el modo producción y utilizar winston sin axiom para el modo desarrollador
 const NODE_ENV = process.env.NODE_ENV || 'development';
