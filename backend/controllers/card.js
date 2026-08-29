@@ -1,6 +1,6 @@
 /* eslint-disable linebreak-style */
 const card = require('../models/card');
-const { NotFoundError, ForbiddenError, InternalServerError } = require('../utils/managerErrors');
+const { NotFoundError, ForbiddenError, InternalServerError, ConflictError } = require('../utils/managerErrors');
 
 exports.getCards = async (req, res) => {
   const cardsFound = await card.find({});
@@ -46,7 +46,7 @@ exports.createCard = async (req, res) => {
   const newCard = await card.create({ ...req.body, owner: idUser });
 
   if (!newCard) {
-    throw new InternalServerError('No se pudo crear la carta');
+    throw new ConflictError('No se pudo crear la carta');
   }
 
   res.status(201).json({ ...newCard.toObject(), success: true, status: 201 });
@@ -60,7 +60,7 @@ exports.likeCard = async (req, res) => {
   );
 
   if (!updatedCard) {
-    throw new InternalServerError('No se pudo actualizar la carta');
+    throw new ConflictError('No se pudo actualizar la carta');
   }
 
   res.status(200).json({ ...updatedCard.toObject(), success: true, status: 200 });
@@ -72,9 +72,9 @@ exports.dislikeCard = async (req, res) => {
     { $pull: { likes: req.user.id } },
     { new: true },
   );
-
+  console.log('updatedCard:', updatedCard);
   if (!updatedCard) {
-    throw new InternalServerError('No se pudo actualizar la carta');
+    throw new ConflictError('No se pudo actualizar la carta');
   }
 
   res.status(200).json({ ...updatedCard.toObject(), success: true, status: 200 });
